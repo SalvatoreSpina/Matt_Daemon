@@ -8,14 +8,16 @@ SRCS =		srcs/main.cpp
 OBJS =		$(SRCS:%.cpp=%.o)
 
 $(NAME):	$(SRCS)
-	$(COMP) $(CFLAGS) $(SRCS) -o $(NAME)
+	@$(COMP) $(CFLAGS) $(SRCS) -o $(NAME)
 
-all: $(NAME)
+all:
+	@$(NAME)
 
 clean:
-			$(RM) $(OBJS)
+	@$(RM) $(OBJS)
 
 fclean:		clean
-			$(RM) $(NAME)
+	@$(RM) $(NAME)
 
-re:			fclean $(NAME)
+re:	
+	@fclean $(NAME)
