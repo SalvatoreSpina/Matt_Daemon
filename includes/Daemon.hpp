@@ -14,7 +14,7 @@ class Daemon
 		int _lock_file_descriptor;
 		Server _server;
 
-		void LogClientsInput();
+		void LogClientsInputs();
 
 	public:
 		// Use a constructor with a meaningful parameter name
@@ -100,7 +100,7 @@ void Daemon::Start()
 					Tintin_reporter::WriteLogs(Tintin_reporter::kError, "Max clients.");
 				}
 			}
-			this->LogClientsInput();
+			this->LogClientsInputs();
 		}
 	}
 }
@@ -134,4 +134,26 @@ void Daemon::UnlockFile()
 		Tintin_reporter::WriteLogs(Tintin_reporter::kError, "Error unlocking file.");
 		throw FileLockError();
 	}
+}
+
+void Daemon::LogClientsInputs() {
+  for (int i = 0; i < NB_MAX_CLI; ++i) {
+    std::string client_input;
+    int result = _server.GetClientInput(i, client_input);
+
+    switch (result) {
+      case kReceived:
+        if (client_input == "quit") {
+          Tintin_reporter::WriteLogs(Tintin_reporter::kInfo, "Client request to quit.");
+          throw QuitRequested();
+        }
+        Tintin_reporter::WriteLogs(Tintin_reporter::kLog, "Client input: " + client_input);
+        break;
+      case kDisconnected:
+        Tintin_reporter::WriteLogs(Tintin_reporter::kLog, "Client disconnected.");
+        break;
+      default:
+        break;
+    }
+  }
 }
