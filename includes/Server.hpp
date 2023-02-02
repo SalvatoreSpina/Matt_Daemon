@@ -16,8 +16,8 @@ class Server {
 		std::vector<int> _client_sockets;
 	
 	public:
-		Server() = default;
-		~Server() = default;
+		Server();
+		~Server();
 
 		int Init();
 		int NewClient();
