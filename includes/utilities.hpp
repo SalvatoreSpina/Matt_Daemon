@@ -29,7 +29,8 @@
 #define PORT 4242
 #define NB_MAX_CLI 3
 #define BUFFER_SIZE 1024
+
 #define LOG_DIRECTORY "/var/log/matt_daemon"
-#define LOCK_DIRECTORY "/var/lock"
 #define LOG_FILE LOG_DIRECTORY "/matt_daemon.log"
+#define LOCK_DIRECTORY "/var/lock"
 #define LOCK_FILE LOCK_DIRECTORY "/matt_daemon.lock"
