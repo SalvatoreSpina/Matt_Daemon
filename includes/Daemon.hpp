@@ -138,22 +138,22 @@ void Daemon::UnlockFile()
 
 void Daemon::LogClientsInputs() {
   for (int i = 0; i < NB_MAX_CLI; ++i) {
-    std::string client_input;
-    int result = _server.GetClientInput(i, client_input);
+	std::string client_input;
+	int result = _server.GetClientInput(i, client_input);
 
-    switch (result) {
-      case kReceived:
-        if (client_input == "quit") {
-          Tintin_reporter::WriteLogs(Tintin_reporter::kInfo, "Client request to quit.");
-          throw QuitRequested();
-        }
-        Tintin_reporter::WriteLogs(Tintin_reporter::kLog, "Client input: " + client_input);
-        break;
-      case kDisconnected:
-        Tintin_reporter::WriteLogs(Tintin_reporter::kLog, "Client disconnected.");
-        break;
-      default:
-        break;
-    }
+	switch (result) {
+	  case kReceived:
+		if (client_input == "quit") {
+		  Tintin_reporter::WriteLogs(Tintin_reporter::kInfo, "Client request to quit.");
+		  throw QuitRequested();
+		}
+		Tintin_reporter::WriteLogs(Tintin_reporter::kLog, "Client input: " + client_input);
+		break;
+	  case kDisconnected:
+		Tintin_reporter::WriteLogs(Tintin_reporter::kLog, "Client disconnected.");
+		break;
+	  default:
+		break;
+	}
   }
 }
