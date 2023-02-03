@@ -1,7 +1,7 @@
 NAME =		matt_daemon
 
 COMP =		clang++
-CFLAGS =	-Wall -Werror -Wextra
+CFLAGS =	-Wall -Werror -Wextra -std=c++11
 
 SRCS =		srcs/main.cpp
 
@@ -20,4 +20,5 @@ fclean:		clean
 	@$(RM) $(NAME)
 
 re:	
-	@fclean $(NAME)
+	@make fclean
+	@make $(NAME)
