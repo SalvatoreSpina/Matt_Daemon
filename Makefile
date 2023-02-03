@@ -22,3 +22,12 @@ fclean:		clean
 re:	
 	@make fclean
 	@make $(NAME)
+
+cleanfile:
+	@sudo rm -rf /var/log/matt_daemon/matt_daemon.log
+
+find:
+	@ps aux | grep matt_daemon
+
+findlock:
+	@ls -ali /var/lock/ | grep matt
