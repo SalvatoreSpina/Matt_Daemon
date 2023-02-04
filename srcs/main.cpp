@@ -14,7 +14,7 @@ void CreateEnvironment(int& lock_file_descriptor)
 	int ret;
 
 	if (getuid() != 0) {
-		throw Daemon::FilePermissionError();
+		throw Daemon::NotRootError();
 	}
 	ret = mkdir(LOG_DIRECTORY, 0777);
 	if (ret == -1 && errno != EEXIST) {
@@ -55,16 +55,10 @@ int main()
 			perror("Daemon: fork");
 			throw Daemon::FunctionCallError();
 		}
-	} catch(const Daemon::FileLockError& e) {
-		std::cerr << e.what() << std::endl;
 	} catch(const Daemon::QuitRequested& e) {
 		// Do nothing
-	} catch(const Daemon::FilePermissionError& e) {
-		std::cerr << e.what() << std::endl;
-		ret = kFailed;
-	} catch(const Daemon::FunctionCallError& e) {
-		ret = kFailed;
 	} catch(const std::exception& e) {
+		std::cerr << e.what() << std::endl;
 		ret = kFailed;
 	}
 	return ret;

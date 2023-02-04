@@ -54,6 +54,13 @@ class Daemon
 				return "Quit requested.";
 			}
 		};
+
+		class NotRootError : public std::exception {
+		public:
+			const char* what() const throw() {
+				return "Matt daemon must be run as root.";
+			}
+		};
 };
 
 
