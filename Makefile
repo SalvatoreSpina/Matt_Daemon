@@ -1,29 +1,22 @@
 NAME =		matt_daemon
-NAME_GUI =	Ben_AFK
 
-COMP =		clang++
-CPPFLAGS =	-Wall -Werror -Wextra -std=c++20 $$(pkg-config --cflags gtk4)
-LDFLAGS =	$$(pkg-config --libs gtk4)
+COMP =		c++
+CPPFLAGS =	-Wall -Werror -Wextra -std=c++20
 
 SRCS =		srcs/main.cpp
-SRCS_GUI =	srcs/ben_afk.cpp
 
 OBJS =		$(SRCS:%.cpp=%.o)
-OBJS_GUI =	$(SRCS_GUI:%.cpp=%.o)
 
-all: $(NAME) $(NAME_GUI)
+all: $(NAME)
 
 $(NAME):	$(OBJS)
-	@$(COMP) $(CPPFLAGS) $^ -o $@ $(LDFLAGS)
-
-$(NAME_GUI):	$(OBJS_GUI)
-	@$(COMP) $(CPPFLAGS) $^ -o $@ $(LDFLAGS)
+	$(COMP) $(CPPFLAGS) $^ -o $@
 
 clean:
-	@$(RM) $(OBJS) $(OBJS_GUI)
+	$(RM) $(OBJS)
 
 fclean:		clean
-	@$(RM) $(NAME) $(NAME_GUI)
+	$(RM) $(NAME)
 
 re:	
 	@make fclean
