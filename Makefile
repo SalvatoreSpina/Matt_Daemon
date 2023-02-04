@@ -1,27 +1,33 @@
 NAME =		matt_daemon
+NAME_GUI =	Ben_AFK
 
 COMP =		clang++
-CFLAGS =	-Wall -Werror -Wextra -std=c++20
+CPPFLAGS =	-Wall -Werror -Wextra -std=c++20 $$(pkg-config --cflags gtk4)
+LDFLAGS =	$$(pkg-config --libs gtk4)
 
 SRCS =		srcs/main.cpp
+SRCS_GUI =	srcs/ben_afk.cpp
 
 OBJS =		$(SRCS:%.cpp=%.o)
+OBJS_GUI =	$(SRCS_GUI:%.cpp=%.o)
 
-$(NAME):	$(SRCS)
-	@$(COMP) $(CFLAGS) $(SRCS) -o $(NAME)
+all: $(NAME) $(NAME_GUI)
 
-all:
-	@$(NAME)
+$(NAME):	$(OBJS)
+	@$(COMP) $(CPPFLAGS) $^ -o $@ $(LDFLAGS)
+
+$(NAME_GUI):	$(OBJS_GUI)
+	@$(COMP) $(CPPFLAGS) $^ -o $@ $(LDFLAGS)
 
 clean:
-	@$(RM) $(OBJS)
+	@$(RM) $(OBJS) $(OBJS_GUI)
 
 fclean:		clean
-	@$(RM) $(NAME)
+	@$(RM) $(NAME) $(NAME_GUI)
 
 re:	
 	@make fclean
-	@make $(NAME)
+	@make all
 
 cleanfile:
 	@sudo rm -rf /var/log/matt_daemon/matt_daemon.log
