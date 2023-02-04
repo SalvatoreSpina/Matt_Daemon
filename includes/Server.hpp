@@ -22,6 +22,7 @@ class Server {
 		int Init();
 		int NewClient();
 		int GetClientInput(int i, std::string& input);
+		int GetClientSocket(int i) const;
 		void ResetFds();
 		fd_set& GetFds();
 		int GetMaxFd() const;
@@ -156,6 +157,10 @@ int Server::GetClientInput(int client_index, std::string &input)
 	return status;
 }
 
+int Server::GetClientSocket(int client_index) const
+{
+	return _client_sockets[client_index];
+}
 
 void Server::ResetFds()
 {

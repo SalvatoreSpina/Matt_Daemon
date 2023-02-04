@@ -1,7 +1,7 @@
 NAME =		matt_daemon
 
 COMP =		clang++
-CFLAGS =	-Wall -Werror -Wextra -std=c++11
+CFLAGS =	-Wall -Werror -Wextra -std=c++20
 
 SRCS =		srcs/main.cpp
 
