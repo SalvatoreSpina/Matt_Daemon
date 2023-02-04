@@ -1,4 +1,4 @@
-NAME =		matt_daemon
+NAME =		Matt_daemon
 
 COMP =		c++
 CPPFLAGS =	-Wall -Werror -Wextra -std=c++20
@@ -26,7 +26,7 @@ cleanfile:
 	@sudo rm -rf /var/log/matt_daemon/matt_daemon.log
 
 find:
-	@ps aux | grep matt_daemon
+	@ps aux | grep Matt_daemon
 
 findlock:
 	@ls -ali /var/lock/ | grep matt
