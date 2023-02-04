@@ -12,6 +12,7 @@ class Daemon
 		Daemon& operator=(const Daemon&) = delete;
 
 		int _lock_file_descriptor;
+		bool _locked;
 		Server _server;
 
 		void LogClientsInputs();
@@ -56,7 +57,7 @@ class Daemon
 };
 
 
-Daemon::Daemon(const int &lock_file_descriptor) : _lock_file_descriptor(lock_file_descriptor) {
+Daemon::Daemon(const int &lock_file_descriptor) : _lock_file_descriptor(lock_file_descriptor), _locked(false) {
 	Tintin_reporter::WriteLogs(Tintin_reporter::kInfo, "Daemon started.");
 }
 
@@ -66,14 +67,14 @@ Daemon::~Daemon() {
 	} catch (const std::exception& e) {
 	// Log the exception if it occurs, but ignore it
 	}
-	if (_lock_file_descriptor != -1) {
+	if (_locked) {
 		UnlockFile();
 		if (close(_lock_file_descriptor) != 0) {
 			Tintin_reporter::WriteLogs(Tintin_reporter::kError, "Failed to close lock file descriptor.");
 		}
-	}
-	if (remove(LOCK_FILE) != 0) {
-		Tintin_reporter::WriteLogs(Tintin_reporter::kError, "Failed to remove lock file.");
+		if (remove(LOCK_FILE) != 0) {
+			Tintin_reporter::WriteLogs(Tintin_reporter::kError, "Failed to remove lock file.");
+		}
 	}
 }
 
@@ -125,10 +126,15 @@ void Daemon::LockFile()
 		Tintin_reporter::WriteLogs(Tintin_reporter::kError, "Error file locked.");
 		throw FileLockError();
 	}
+	_locked = true;
 }
 
 void Daemon::UnlockFile()
 {
+	if (!_locked) {
+		return;
+	}
+
 	int unlock_result = flock(_lock_file_descriptor, LOCK_UN);
 	if (unlock_result == -1) {
 		Tintin_reporter::WriteLogs(Tintin_reporter::kError, "Error unlocking file.");
