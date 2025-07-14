@@ -13,6 +13,8 @@ $(NAME):	$(OBJS)
 	$(COMP) $(CPPFLAGS) $^ -o $@
 
 clean:
+	@echo "→ Killing any running Matt_daemon…"
+	-@sudo pkill -SIGTERM -f Matt_daemon 2>/dev/null
 	$(RM) $(OBJS)
 
 fclean:		clean
