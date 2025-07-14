@@ -1,5 +1,5 @@
-#include "../includes/Daemon.hpp"
-#include "../includes/Tintin_reporter.hpp"
+#include "Daemon.hpp"
+#include "Tintin_reporter.hpp"
 
 // Function to handle signals
 void HandleSignal(int signum) {

@@ -1,9 +1,11 @@
 NAME =		Matt_daemon
 
 COMP =		c++
-CPPFLAGS =	-Wall -Werror -Wextra -std=c++20
+CPPFLAGS =	-Wall -Werror -Wextra -std=c++20 -I includes
 
-SRCS =		srcs/main.cpp
+SRCS =	srcs/Server.cpp \
+		srcs/Daemon.cpp \
+		srcs/main.cpp \
 
 OBJS =		$(SRCS:%.cpp=%.o)
 
